@@ -28,4 +28,23 @@
  */
 export function chaiTapriRevenue(customers) {
   // Your code here
+  let chai = new Object()
+  chai.totalChai = 0
+  chai.totalRevenue = 0
+
+  if(customers < 0 || typeof customers !== "number" || Math.ceil(customers) !== customers) {
+    return chai;
+  }
+
+  for(let i = 1; i <= customers; i++) {
+    if (i % 3 === 0) {
+      chai.totalRevenue += 15
+    } else {
+      chai.totalRevenue += 10
+    }
+
+    chai.totalChai += 1
+  }
+
+  return chai;
 }

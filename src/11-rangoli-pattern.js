@@ -37,4 +37,25 @@
  */
 export function rangoli(n) {
   // Your code here
+  if (!Number.isInteger(n) || n <= 0) {
+    return [];
+  }
+
+  const pattern = [];
+
+  // Top half (including middle row)
+  for (let i = 1; i <= n; i++) {
+    const spaces = " ".repeat(n - i);
+    const stars = Array(i).fill("*").join(" ");
+    pattern.push(spaces + stars);
+  }
+
+  // Bottom half (mirroring the top)
+  for (let i = n - 1; i >= 1; i--) {
+    const spaces = " ".repeat(n - i);
+    const stars = Array(i).fill("*").join(" ");
+    pattern.push(spaces + stars);
+  }
+
+  return pattern;
 }

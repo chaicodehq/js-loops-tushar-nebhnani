@@ -38,4 +38,117 @@
  */
 export function iplPointsTable(matches) {
   // Your code here
+  if (!Array.isArray(matches) || matches.length === 0) {
+    return [];
+  }
+
+  const rtn = {};
+
+  for (const t of matches) {
+    if (t.result === "win") {
+      if (t.winner in rtn) {
+        rtn[t.winner].played += 1;
+        rtn[t.winner].won += 1;
+        rtn[t.winner].points += 2;
+      } else {
+        rtn[t.winner] = {
+          team: t.winner,
+          played: 1,
+          won: 1,
+          lost: 0,
+          tied: 0,
+          noResult: 0,
+          points: 2,
+        };
+      }
+
+      const lost = t.winner === t.team1 ? t.team2 : t.team1;
+
+      if (lost in rtn) {
+        rtn[lost].played += 1;
+        rtn[lost].lost += 1;
+      } else {
+        rtn[lost] = {
+          team: lost,
+          played: 1,
+          won: 0,
+          lost: 1,
+          tied: 0,
+          noResult: 0,
+          points: 0,
+        };
+      }
+    } else if (t.result === "tie") {
+      if (t.team1 in rtn) {
+        rtn[t.team1].played += 1;
+        rtn[t.team1].tied += 1;
+        rtn[t.team1].points += 1;
+      } else {
+        rtn[t.team1] = {
+          team: t.team1,
+          played: 1,
+          won: 0,
+          lost: 0,
+          tied: 1,
+          noResult: 0,
+          points: 1,
+        };
+      }
+
+      if (t.team2 in rtn) {
+        rtn[t.team2].played += 1;
+        rtn[t.team2].tied += 1;
+        rtn[t.team2].points += 1;
+      } else {
+        rtn[t.team2] = {
+          team: t.team2,
+          played: 1,
+          won: 0,
+          lost: 0,
+          tied: 1,
+          noResult: 0,
+          points: 1,
+        };
+      }
+    } else {
+      if (t.team1 in rtn) {
+        rtn[t.team1].played += 1;
+        rtn[t.team1].noResult += 1;
+        rtn[t.team1].points += 1;
+      } else {
+        rtn[t.team1] = {
+          team: t.team1,
+          played: 1,
+          won: 0,
+          lost: 0,
+          tied: 0,
+          noResult: 1,
+          points: 1,
+        };
+      }
+
+      if (t.team2 in rtn) {
+        rtn[t.team2].played += 1;
+        rtn[t.team2].noResult += 1;
+        rtn[t.team2].points += 1;
+      } else {
+        rtn[t.team2] = {
+          team: t.team2,
+          played: 1,
+          won: 0,
+          lost: 0,
+          tied: 0,
+          noResult: 1,
+          points: 1,
+        };
+      }
+    }
+  }
+
+  return Object.values(rtn).sort((a, b) => {
+    if (b.points !== a.points) {
+      return b.points - a.points;
+    }
+    return a.team.localeCompare(b.team);
+  });
 }
